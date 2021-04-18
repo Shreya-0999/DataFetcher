@@ -2,6 +2,7 @@ let fs = require("fs");
 let xlsx = require("xlsx");
 let path = require("path");
 let puppeteer = require("puppeteer");
+let browserInstance
 let links = ["https://www.internshala.com/internships/", "https://www.hellointern.com/search"];
 
 async function internshalaList(link, browserInstance, category) {
@@ -20,7 +21,7 @@ async function internshalaList(link, browserInstance, category) {
         let otherDetailsArr = document.querySelectorAll(".internship_other_details_container");
         let linkArr = document.querySelectorAll(".view_detail_button");
         let details = [];
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
             if (companyNameArr[i] && profileNameArr[i] && otherDetailsArr[i]) {
                 let Company = companyNameArr[i].innerText;
                 let Profile = profileNameArr[i].innerText;
@@ -54,16 +55,13 @@ async function helloInternList(link, browserInstance, category) {
         let endDateArr = document.querySelectorAll(".location_span");
         let linkArr = document.querySelectorAll(".action_apply a");
         let details = [];
-        for (let i = 0, j = 0; i < 5; i++, j += 2) {
+        for (let i = 0, j = 0; i < 10; i++, j += 2) {
             let Company = companyName[i].innerText;
             let Profile = profileName[i].innerText;
             let Stipend = stipendArr[j].innerText;
             let StartDate = startDateArr[j + 1].innerText.split(": ")[1];
             let EndDate = endDateArr[j + 1].innerText.split(": ")[1];
             let obj = { Company, Profile, Stipend, StartDate, EndDate };
-            // console.log(linkArr);
-            // let link = linkArr[i + 1].getAttribute("href");
-            // obj.Link = link;
             obj.Link = "https://www.hellointern.com/" + linkArr[1].getAttribute("href");;
 
             details.push(obj)
@@ -88,7 +86,7 @@ function excelWriter(filePath, content, sheetName) {
 
 async function InternFn(cmd, category, dirpath) {
     try {
-        let browserInstance = await puppeteer.launch({
+         browserInstance = await puppeteer.launch({
             headless: false,
             defaultViewport: null,
             args: ["--start-maximized",]
@@ -109,6 +107,9 @@ async function InternFn(cmd, category, dirpath) {
 
     } catch (err) {
         console.log(err);
+    }
+    finally {
+        await browserInstance.close();
     }
 }
 

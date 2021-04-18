@@ -2,6 +2,7 @@ let fs = require("fs");
 let xlsx = require("xlsx");
 let path = require("path");
 let puppeteer = require("puppeteer");
+let browserInstance
 let links = ["https://www.udemy.com/", "https://www.coursera.org/in", "https://www.linkedin.com/learning/"];
 
 async function udemyList(link, browserInstance, category) {
@@ -18,7 +19,7 @@ async function udemyList(link, browserInstance, category) {
         let priceArr = document.querySelectorAll(".price-text--price-part--Tu6MH.course-card--discount-price--3TaBk.udlite-heading-md");
         let linkArr = document.querySelectorAll(".udlite-custom-focus-visible.browse-course-card--link--3KIkQ");
         let details = [];
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
             if (courseNameArr[i] && providerArr[i] && ratingArr[i] && priceArr[i] && linkArr[i]) {
                 let Name = courseNameArr[i].innerText;
                 let Provider = providerArr[i].innerText;
@@ -49,7 +50,7 @@ async function courseraList(link, browserInstance, category) {
         let ratingArr = document.querySelectorAll(".rc-Ratings.horizontal-box .ratings-text");
         let levelArr = document.querySelectorAll(".product-difficulty .difficulty");
         let details = [];
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
             if (courseNameArr[i]) {
                 let Name = courseNameArr[i].innerText;
                 let Provider = providerArr[i].innerText;
@@ -77,7 +78,7 @@ async function linkedInList(link, browserInstance, category) {
         let durationArr = document.querySelectorAll(".search-entity-media__duration");
         let linkArr = document.querySelectorAll(".results-list__item a");
         let details = [];
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
             if (courseNameArr[i]) {
                 let Name = courseNameArr[i].innerText;
                 let Provider = providerArr[i].innerText;
@@ -108,7 +109,7 @@ function excelWriter(filePath, content, sheetName) {
 async function CourseFn(cmd, category, dirpath) {
 
     try {
-        let browserInstance = await puppeteer.launch({
+        browserInstance = await puppeteer.launch({
             headless: false,
             defaultViewport: null,
             args: ["--start-maximized",]
@@ -132,6 +133,9 @@ async function CourseFn(cmd, category, dirpath) {
 
     } catch (err) {
         console.log(err);
+    }
+    finally {
+        await browserInstance.close();
     }
 
 };
