@@ -1,21 +1,21 @@
 # DataFetcher
 ## Table of Contents
-1. [General Info](#general-info)
+1. [Description](#description)
 2. [Installation](#installation)
 
-### General Info
+### Description
 ***
-This project will help you to find the data related to internships and course materials according to the command passed. 
-1. **node main.js internship "Web Development"**  :: If the *internship* command is passed then it will scrape the available internship data from the domain passed i.e Web development 
-from the websites (Internshala and HelloIntern) and will make an excel file holding up the data fetched.
+With the help of automation this project will help one to find the data related to internships and course materials that are available in any particular domain and make an excel file containing all the data related to that course or internship. The commands to be passed are:
+1. **node main.js internship "Web Development"**  :: If the *internship* command is passed then it will scrape the available internship data from the domain passed i.e Web development from the websites (Internshala and HelloIntern) and will make an excel file holding up the data fetched.
 
-2. **node main.js course "Web Development"**  :: If the *course* command is passed then it will find and scrape the courses that are providing the course passed in the command i.e Web development 
-from the websites (Udemy, Coursera and LinkedIn Learning) and will make an excel file that will contain the data fetched.
+2. **node main.js course "Web Development"**  :: If the *course* command is passed then it will find and scrape the courses that are providing the course passed in the command i.e Web development from the websites (Udemy, Coursera and LinkedIn Learning) and will make an excel file that will contain the data fetched.
 ***
 
-## Installation
+### Installation
 ***
-A little intro about the installation. 
+The libraries that I have installed are:
+```
 $ npm install puppeteer
 $ npm install xlsx
+```
 ***
