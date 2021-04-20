@@ -8,18 +8,25 @@ async function glassdoorList(link, browserInstance, category) {
     let newTab = await browserInstance.newPage();
     await newTab.goto(link);
     await newTab.type("#KeywordSearch", category, { delay: 100 });
+    await newTab.click("#LocationSearch");
+    await newTab.keyboard.down("Control");
+    await newTab.keyboard.press("A");
+    await newTab.keyboard.press("Backspace");
+    await newTab.keyboard.up("Control");
     await newTab.keyboard.press("Enter");
     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
 
-    function extractData() {
+    async function extractData() {
         let companyNameArr = document.querySelectorAll(".d-flex.justify-content-between.align-items-start");
         let profileNameArr = document.querySelectorAll(".jobLink.css-1rd3saf.eigr9kq2");
         let salaryArr = document.querySelectorAll("span[data-test='detailSalary']");
         let ratingArr = document.querySelectorAll(".css-19pjha7.e1cjmv6j1");
         let linkArr = document.querySelectorAll(".d-flex.flex-column.css-x75kgh.e1rrn5ka3 a");
         let details = [];
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
             if (companyNameArr[i] && profileNameArr[i] && salaryArr[i] && ratingArr[i]) {
+                companyNameArr[i].click();
+                await new Promise((resolve, reject) => setTimeout(resolve, 1000));
                 let Company = companyNameArr[i].innerText;
                 let Profile = profileNameArr[i].innerText;
                 let Salary = salaryArr[i].innerText.split("\n");
@@ -38,16 +45,23 @@ async function simplyHiredList(link, browserInstance, category) {
     let newTab = await browserInstance.newPage();
     await newTab.goto(link);
     await newTab.type("input[placeholder='Job Title, Skills or Company']", category, { delay: 100 });
+    await newTab.click("#location");
+    await newTab.keyboard.down("Control");
+    await newTab.keyboard.press("A");
+    await newTab.keyboard.up("Control");
+    await newTab.keyboard.press("Backspace");
     await newTab.keyboard.press("Enter");
     await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
-    function extractData() {
+    async function extractData() {
         let companyName = document.querySelectorAll(".JobPosting-labelWithIcon.jobposting-company");
         let profileName = document.querySelectorAll(".jobposting-title");
         let locationArr = document.querySelectorAll(".jobposting-location");
         let linkArr = document.querySelectorAll(".jobposting-title a");
         let details = [];
-        for (let i = 0, j = 0; i < 5; i++, j += 2) {
+        for (let i = 0, j = 0; i < 10; i++, j += 2) {
+            companyName[i].click();
+            await new Promise((resolve, reject) => setTimeout(resolve, 1000));
             let Company = companyName[i].innerText;
             let Profile = profileName[i].innerText;
             let Location = locationArr[j].innerText;
@@ -97,6 +111,8 @@ async function JobFn(cmd, category, dirpath) {
 
     } catch (err) {
         console.log(err);
+    } finally{
+        await browserInstance.close();
     }
 }
 

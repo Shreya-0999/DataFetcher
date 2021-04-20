@@ -100,7 +100,7 @@ async function InternFn(cmd, category, dirpath) {
                 data = await internshalaList(links[i], browserInstance, category);
             else if (siteName == "hellointern")
                 data = await helloInternList(links[i], browserInstance, category);
-            console.table(data);
+            // console.table(data);
             let fpath = path.join(folderPath, siteName + ".xlsx")
             excelWriter(fpath, data, "First");
         }

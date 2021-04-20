@@ -30,6 +30,7 @@ async function udemyList(link, browserInstance, category) {
                 details.push(obj);
             }
         }
+        console.log(details);
         return details;
     }
     return await newTab.evaluate(extractData);
@@ -126,7 +127,7 @@ async function CourseFn(cmd, category, dirpath) {
                 data = await courseraList(links[i], browserInstance, category);
             else if (siteName == "linkedin")
                 data = await linkedInList(links[i], browserInstance, category);
-            console.table(data);
+            // console.table(data);
             let fpath = path.join(folderPath, siteName + ".xlsx")
             excelWriter(fpath, data, "First");
         } 
